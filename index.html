@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,300;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/5f4340e36e.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <header class="header">
+      <img class="logo" src="./logo.png" alt="Logo les petits plats" />
+    </header>
+
+    <section class="search">
+      <input
+        type="text"
+        class="search__input"
+        placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette"
+      />
+      <i class="fas fa-search"></i>
+    </section>
+    <section class="tags" id="tags">
+   
+    </section>
+    <section class="filters">
+      <button class="btn btn--blue" id="bluebutton">
+        <span class="btn__span" id="btn-ingredient-text">Ingredients</span>
+          <input type="text" class="searchby" id="searchingredients" placeholder="Recherche un ingrédient">
+          <div class="list--blue" id="list--blue">
+            <ul class="list--blue__ul" id="ingredientslist"></ul>
+          </div>
+          <i class="fas fa-chevron-down" id="chevron-down-blue"></i>
+          <i class="fas fa-chevron-up" id="chevron-up-blue"></i>
+      </button>
+      <button class="btn btn--green" id="greenbutton">
+        <span class="btn__span" id="btn-device-text">Appareils</span>
+        <input type="text" class="searchby" id="searchdevices" placeholder="Recherche un appareil">
+        <div class="list--green" id="list--green">
+          <ul class="list--green__ul" id="deviceslist"></ul>
+        </div>
+        <i class="fas fa-chevron-down"  id="chevron-down-green"></i></i>
+        <i class="fas fa-chevron-up" id="chevron-up-green"></i>
+      </button>
+      <button class="btn btn--orange" id="orangebutton">
+        <span class="btn__span" id="btn-ustensil-text">Ustensiles</span>
+        <input type="text" class="searchby" id="searchustensils" placeholder="Recherche un ustensil">
+        <div class="list--orange" id="list--orange">
+          <ul class="list--orange__ul" id="ustensilslist"></ul>
+        </div>
+        <i class="fas fa-chevron-down"  id="chevron-down-orange"></i></i>
+        <i class="fas fa-chevron-up" id="chevron-up-orange"></i>
+      </button>
+    </section>
+    <section class="recipes"></section>
+
+    <script src="./main.js" type="module"></script>
+    <script src="./solution1.js" type="module"></script>
+  </body>
+</html>
