@@ -124,13 +124,15 @@ body {
   text-align: left;
 }
 
-.btn .fas, .btn .fa-chevron-down {
+.btn .fas,
+.btn .fa-chevron-down {
   position: absolute;
   top: 24px;
   right: 16px;
 }
 
-.btn .fas:hover, .btn .fa-chevron-down:hover {
+.btn .fas:hover,
+.btn .fa-chevron-down:hover {
   cursor: pointer;
 }
 
@@ -204,11 +206,15 @@ body {
       flex-wrap: wrap;
 }
 
-.ingredient, .device, .ustensil {
+.ingredient,
+.device,
+.ustensil {
   width: 150px;
 }
 
-.ingredient:hover, .device:hover, .ustensil:hover {
+.ingredient:hover,
+.device:hover,
+.ustensil:hover {
   background-color: white;
   color: black;
   cursor: pointer;
@@ -328,7 +334,7 @@ body {
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: flex-start;
-  background-color: #E7E7E7;
+  background-color: #e7e7e7;
   height: 186px;
   width: 100%;
   overflow: hidden;
@@ -404,7 +410,7 @@ body {
 
 .recipe__description__detailscontainer__cooking {
   width: 50%;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 12px;
   font-weight: 400;
 }
@@ -460,11 +466,29 @@ body {
   padding-right: 2px;
 }
 
-.btntag i {
+.btntag__cross-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 20px;
+  height: 100%;
+}
+
+.btntag__cross-container i {
   font-size: 20px;
 }
 
-.btntag i:hover {
+.btntag__cross-container i:hover {
   cursor: pointer;
 }
 
