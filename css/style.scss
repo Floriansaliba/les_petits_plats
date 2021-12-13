@@ -113,6 +113,10 @@ body {
   &--orange {
     background-color: #ed6454;
   }
+  &__span {
+    position: relative;
+    top: 8px;
+  }
 }
 
 .searchby {
@@ -458,6 +462,11 @@ body {
     top: 20px;
   }
 
+  .btn__span {
+    position: relative;
+    top: 1px;
+  }
+
   .searchby {
     font-size: 15px;
   }
@@ -527,6 +536,11 @@ body {
   .btn--green,
   .btn--blue {
     margin-right: 0;
+  }
+
+  .btn__span {
+    position: relative;
+    top: 2px;
   }
 
   .searchby {
