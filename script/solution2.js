@@ -8,41 +8,51 @@ export const renderRecipes = (recipeTable) => {
   recipesSection.innerHTML = "";
 
   // Insérer dynamiquement le code html des recettes
-  recipeTable.forEach((recipe) => {
+
+  for (let i = 0; i < recipeTable.length; i++) {
     recipesSection.innerHTML += `<div class="recipe">
     <div class="recipe__picturecontainer"></div>
     <div class="recipe__description">
         <div class="recipe__description__titlecontainer">
-            <h2 class="title">${recipe.name}</h2>
+            <h2 class="title">${recipeTable[i].name}</h2>
             <div class="recipe__description__timecontainer">
-                <span class="recipe__description__time"><i class="far fa-clock"></i> ${recipe.time} min</span>
+                <span class="recipe__description__time"><i class="far fa-clock"></i> ${recipeTable[i].time} min</span>
             </div>
         </div>
         <div class="recipe__description__detailscontainer">
             <ul class="recipe__description__detailscontainer__ingredients"></ul>
-            <p class="recipe__description__detailscontainer__cooking">${recipe.description}</p>
+            <p class="recipe__description__detailscontainer__cooking">${recipeTable[i].description}</p>
         </div>
     </div>
 </div>`;
-  });
+  }
 
   // Récupérer le tableau d'ingrédients pour chaque recette
 
-  const ingredientTables = recipeTable.map((r) => {
-    return r.ingredients.map((i) => {
-      if (i.quantity === undefined) {
-        return `<li>${i.ingredient.replace(/ *\([^)]*\) */g, "")}</li>`;
-      } else if (i.unit === undefined) {
-        return `<li>${i.ingredient.replace(/ *\([^)]*\) */g, "")}: ${
-          i.quantity
-        }</li>`;
+  const ingredientTables = [];
+  for (let i = 0; i < recipeTable.length; i++) {
+    const ingredients = recipeTable[i].ingredients;
+    ingredientTables.push([]);
+    for (let y = 0; y < ingredients.length; y++) {
+      if (ingredients[y].quantity === undefined) {
+        ingredientTables[i].push(
+          `<li>${ingredients[y].ingredient.replace(/ *\([^)]*\) */g, "")}</li>`
+        );
+      } else if (ingredients[y].unit === undefined) {
+        ingredientTables[i].push(
+          `<li>${ingredients[y].ingredient.replace(/ *\([^)]*\) */g, "")}: ${
+            ingredients[y].quantity
+          }</li>`
+        );
       } else {
-        return `<li>${i.ingredient.replace(/ *\([^)]*\) */g, "")}: ${
-          i.quantity
-        }${i.unit}</li>`;
+        ingredientTables[i].push(
+          `<li>${ingredients[y].ingredient.replace(/ *\([^)]*\) */g, "")}: ${
+            ingredients[y].quantity
+          }${ingredients[y].unit}</li>`
+        );
       }
-    });
-  });
+    }
+  }
 
   // Injecter les ingrédients, quantités et unités sous forme de balise <i> dans le code HTML
 
@@ -60,29 +70,43 @@ export const renderRecipes = (recipeTable) => {
   const getIngredientArray = () => {
     const allIngredientsTable = [];
 
-    const ingredientsByRecipeTable = recipeTable.map((element) => {
-      return element.ingredients.map((i) => {
-        return i.ingredient.replace(/ *\([^)]*\) */g, "");
-      });
-    });
+    const ingredientsByRecipeTable = [];
+    for (let i = 0; i < recipeTable.length; i++) {
+      const ingredients = recipeTable[i].ingredients;
+      ingredientsByRecipeTable.push([]);
+      for (let y = 0; y < ingredients.length; y++) {
+        ingredientsByRecipeTable[i].push(
+          ingredients[y].ingredient.replace(/ *\([^)]*\) */g, "")
+        );
+      }
+    }
 
-    ingredientsByRecipeTable.forEach((element) => {
-      element.forEach((i) => {
-        allIngredientsTable.push(i);
-      });
-    });
+    for (let i = 0; i < ingredientsByRecipeTable.length; i++) {
+      const ingredients = ingredientsByRecipeTable[i];
+      for (let y = 0; y < ingredients.length; y++) {
+        allIngredientsTable.push(ingredients[y]);
+      }
+    }
 
     // Passer les ingrédients en minuscule
-    let ingretiensToLowerCase = allIngredientsTable.map((i) => {
-      return i.toLowerCase();
-    });
+
+    const ingretiensToLowerCase = [];
+    for (let i = 0; i < allIngredientsTable.length; i++) {
+      ingretiensToLowerCase.push(allIngredientsTable[i].toLowerCase());
+    }
 
     // Enlever les doublons et passer les premières lettres en majuscule
 
     const ingredientsArray = [...new Set(ingretiensToLowerCase)];
-    const ingredients = ingredientsArray.map((i) => {
-      return i.charAt(0).toUpperCase() + i.slice(1);
-    });
+
+    const ingredients = [];
+    for (let i = 0; i < ingredientsArray.length; i++) {
+      ingredients.push(
+        ingredientsArray[i].charAt(0).toUpperCase() +
+          ingredientsArray[i].slice(1)
+      );
+    }
+
     return ingredients;
   };
 
@@ -102,33 +126,44 @@ export const renderRecipes = (recipeTable) => {
   let listofingredients = document.getElementById("ingredientslist");
   listofingredients.innerHTML = "";
 
-  getIngredientsShortListed().forEach((i) => {
-    listofingredients.innerHTML += `<li class=ingredient>${i}</li>`;
-  });
+  for (let i = 0; i < getIngredientsShortListed().length; i++) {
+    listofingredients.innerHTML += `<li class=ingredient>${
+      getIngredientsShortListed()[i]
+    }</li>`;
+  }
 
   // Récupérer la liste de tous les appareils sans doublons
   const getDevicesArray = () => {
     const allDevicesTable = [];
 
-    const devicesByRecipeTable = recipeTable.map((element) => {
-      return element.appliance;
-    });
+    const devicesByRecipeTable = [];
+    for (let i = 0; i < recipeTable.length; i++) {
+      const device = recipeTable[i].appliance;
+      devicesByRecipeTable.push(device);
+    }
 
-    devicesByRecipeTable.forEach((element) => {
-      return allDevicesTable.push(element);
-    });
+    for (let i = 0; i < devicesByRecipeTable.length; i++) {
+      allDevicesTable.push(devicesByRecipeTable[i]);
+    }
 
     // Passer les appareils en minuscule
-    let devicesToLowerCase = allDevicesTable.map((i) => {
-      return i.toLowerCase();
-    });
+
+    const devicesToLowerCase = [];
+    for (let i = 0; i < allDevicesTable.length; i++) {
+      devicesToLowerCase.push(allDevicesTable[i].toLowerCase());
+    }
 
     // Enlever les doublons et passer les premières lettres en majuscule
 
     const devicesArray = [...new Set(devicesToLowerCase)];
-    const devices = devicesArray.map((i) => {
-      return i.charAt(0).toUpperCase() + i.slice(1);
-    });
+
+    const devices = [];
+    for (let i = 0; i < devicesArray.length; i++) {
+      devices.push(
+        devicesArray[i].charAt(0).toUpperCase() + devicesArray[i].slice(1)
+      );
+    }
+
     return devices;
   };
 
@@ -139,35 +174,45 @@ export const renderRecipes = (recipeTable) => {
   let listofdevices = document.getElementById("deviceslist");
   listofdevices.innerHTML = "";
 
-  getDevicesArray().forEach((i) => {
-    listofdevices.innerHTML += `<li class=device>${i}</li>`;
-  });
+  for (let i = 0; i < getDevicesArray().length; i++) {
+    listofdevices.innerHTML += `<li class=device>${getDevicesArray()[i]}</li>`;
+  }
 
   // Récupérer la liste de tous les ustensils sans doublons
   const getUstensilsArray = () => {
     const allUstensilsTable = [];
 
-    const ustensilsByRecipeTable = recipeTable.map((element) => {
-      return element.ustensils;
-    });
+    const ustensilsByRecipeTable = [];
+    for (let i = 0; i < recipeTable.length; i++) {
+      const ustensils = recipeTable[i].ustensils;
+      ustensilsByRecipeTable.push(ustensils);
+    }
 
-    ustensilsByRecipeTable.forEach((element) => {
-      return element.forEach((u) => {
-        return allUstensilsTable.push(u.replace(/ *\([^)]*\) */g, ""));
-      });
-    });
+    for (let i = 0; i < ustensilsByRecipeTable.length; i++) {
+      const ustensils = ustensilsByRecipeTable[i];
+      for (let y = 0; y < ustensils.length; y++) {
+        allUstensilsTable.push(ustensils[y].replace(/ *\([^)]*\) */g, ""));
+      }
+    }
 
     // Passer les ustensils en minuscule
-    let ustensilsToLowerCase = allUstensilsTable.map((i) => {
-      return i.toLowerCase();
-    });
+
+    const ustensilsToLowerCase = [];
+    for (let i = 0; i < allUstensilsTable.length; i++) {
+      ustensilsToLowerCase.push(allUstensilsTable[i].toLowerCase());
+    }
 
     // Enlever les doublons et passer les premières lettres en majuscule
 
     const ustensilsArray = [...new Set(ustensilsToLowerCase)];
-    const ustensils = ustensilsArray.map((i) => {
-      return i.charAt(0).toUpperCase() + i.slice(1);
-    });
+
+    const ustensils = [];
+    for (let i = 0; i < ustensilsArray.length; i++) {
+      ustensils.push(
+        ustensilsArray[i].charAt(0).toUpperCase() + ustensilsArray[i].slice(1)
+      );
+    }
+
     return ustensils;
   };
 
@@ -178,9 +223,11 @@ export const renderRecipes = (recipeTable) => {
   let listofustensils = document.getElementById("ustensilslist");
   listofustensils.innerHTML = "";
 
-  getUstensilsArray().forEach((i) => {
-    listofustensils.innerHTML += `<li class=ustensil>${i}</li>`;
-  });
+  for (let i = 0; i < getUstensilsArray().length; i++) {
+    listofustensils.innerHTML += `<li class=ustensil>${
+      getUstensilsArray()[i]
+    }</li>`;
+  }
 
   //// gérer le clique sur les chevrons
 
@@ -254,23 +301,33 @@ export const renderRecipes = (recipeTable) => {
     searchbaringredients.addEventListener("input", () => {
       // Si le mot tappé est > à 1 caractère : on créé un tableau de recettes
       if (searchbaringredients.value.length >= 1) {
-        const ingredientTables = recipeTable.map((r) => {
-          return r.ingredients.map((i) => {
-            return i.ingredient;
-          });
-        });
+        const ingredientTables = [];
+        for (let i = 0; i < recipeTable.length; i++) {
+          const ingredients = recipeTable[i].ingredients;
+          ingredientTables.push([]);
+          for (let y = 0; y < ingredients.length; y++) {
+            ingredientTables[i].push(ingredients[y].ingredient);
+          }
+        }
 
         // Récupérer les ingrédients en minuscules dans un tableau
-        ingredientTables.forEach((table) => {
-          table.forEach((i) => {
-            ingredientarray.push(i.toLowerCase());
-          });
-        });
+
+        for (let i = 0; i < ingredientTables.length; i++) {
+          const ingredients = ingredientTables[i];
+          for (let y = 0; y < ingredients.length; y++) {
+            ingredientarray.push(ingredients[y].toLowerCase());
+          }
+        }
 
         // Modifier le tableau pour avoir la première lettre des ingrédients en majuscule
-        const firstuppercaseletter = ingredientarray.map((i) => {
-          return i.charAt(0).toUpperCase() + i.slice(1);
-        });
+
+        const firstuppercaseletter = [];
+        for (let i = 0; i < ingredientarray.length; i++) {
+          firstuppercaseletter.push(
+            ingredientarray[i].charAt(0).toUpperCase() +
+              ingredientarray[i].slice(1)
+          );
+        }
 
         // Enlever les doublons pour récupérer les 123 ingrédients
 
@@ -280,11 +337,13 @@ export const renderRecipes = (recipeTable) => {
         ingredientword = searchbaringredients.value.toLowerCase();
 
         // Créer un tableau d'ingrédient qui match la recherche
-        const matchsearcharray = ingredients.filter((i) => {
-          if (matchInput(i, ingredientword)) {
-            return i;
+
+        const matchsearcharray = [];
+        for (let i = 0; i < ingredients.length; i++) {
+          if (matchInput(ingredients[i], ingredientword)) {
+            matchsearcharray.push(ingredients[i]);
           }
-        });
+        }
 
         // si le tableau présente plus de 30 ingrédients, raccourcir la liste à 30 max
         matchsearcharray.length > 30
@@ -292,12 +351,10 @@ export const renderRecipes = (recipeTable) => {
           : matchsearcharray;
 
         ingredientlist.innerHTML = "";
-        console.log(ingredientlist);
-        matchsearcharray.forEach((i) => {
-          ingredientlist.innerHTML += `<li class="ingredient">${i}</li>`;
-        });
 
-        console.log(ingredientlist);
+        for (let i = 0; i < matchsearcharray.length; i++) {
+          ingredientlist.innerHTML += `<li class="ingredient">${matchsearcharray[i]}</li>`;
+        }
       }
     });
   };
@@ -317,19 +374,25 @@ export const renderRecipes = (recipeTable) => {
 
     searchbardevices.addEventListener("input", () => {
       if (searchbardevices.value.length >= 1) {
-        const deviceTables = recipeTable.map((r) => {
-          return r.appliance;
-        });
+        const deviceTables = [];
+        for (let i = 0; i < recipeTable.length; i++) {
+          deviceTables.push(recipeTable[i].appliance);
+        }
 
         // Récupérer les appareils en minuscules dans un tableau
-        deviceTables.forEach((device) => {
-          devicearray.push(device.toLowerCase());
-        });
+
+        for (let i = 0; i < deviceTables.length; i++) {
+          devicearray.push(deviceTables[i].toLowerCase());
+        }
 
         // Modifier le tableau pour avoir la première lettre des appareils en majuscule
-        const firstuppercaseletter = devicearray.map((i) => {
-          return i.charAt(0).toUpperCase() + i.slice(1);
-        });
+
+        const firstuppercaseletter = [];
+        for (let i = 0; i < devicearray.length; i++) {
+          firstuppercaseletter.push(
+            devicearray[i].charAt(0).toUpperCase() + devicearray[i].slice(1)
+          );
+        }
 
         // Enlever les doublons
 
@@ -339,11 +402,13 @@ export const renderRecipes = (recipeTable) => {
         deviceword = searchbardevices.value.toLowerCase();
 
         // Créer un tableau d'appareils qui matchent la recherche
-        const matchsearcharray = devices.filter((i) => {
-          if (matchInput(i, deviceword)) {
-            return i;
+
+        const matchsearcharray = [];
+        for (let i = 0; i < devices.length; i++) {
+          if (matchInput(devices[i], deviceword)) {
+            matchsearcharray.push(devices[i]);
           }
-        });
+        }
 
         // si le tableau présente plus de 30 appareils, raccourcir la liste à 30 max
         matchsearcharray.length > 30
@@ -351,12 +416,10 @@ export const renderRecipes = (recipeTable) => {
           : matchsearcharray;
 
         devicelist.innerHTML = "";
-        console.log(devicelist);
-        matchsearcharray.forEach((i) => {
-          devicelist.innerHTML += `<li class="device">${i}</li>`;
-        });
 
-        console.log(devicelist);
+        for (let i = 0; i < matchsearcharray.length; i++) {
+          devicelist.innerHTML += `<li class="device">${matchsearcharray[i]}</li>`;
+        }
       }
     });
   };
@@ -376,23 +439,28 @@ export const renderRecipes = (recipeTable) => {
 
     searchbarustensils.addEventListener("input", () => {
       if (searchbarustensils.value.length >= 1) {
-        const ustensilTables = recipeTable.map((r) => {
-          return r.ustensils;
-        });
-
-        console.log(ustensilTables);
+        const ustensilTables = [];
+        for (let i = 0; i < recipeTable.length; i++) {
+          ustensilTables.push(recipeTable[i].ustensils);
+        }
 
         // Récupérer les appareils en minuscules dans un tableau
-        ustensilTables.forEach((ustensil) => {
-          ustensil.forEach((u) => {
-            ustensilarray.push(u.toLowerCase());
-          });
-        });
+
+        for (let i = 0; i < ustensilTables.length; i++) {
+          const ustensils = ustensilTables[i];
+          for (let y = 0; y < ustensils.length; y++) {
+            ustensilarray.push(ustensils[y].toLowerCase());
+          }
+        }
 
         // Modifier le tableau pour avoir la première lettre des appareils en majuscule
-        const firstuppercaseletter = ustensilarray.map((i) => {
-          return i.charAt(0).toUpperCase() + i.slice(1);
-        });
+
+        const firstuppercaseletter = [];
+        for (let i = 0; i < ustensilarray.length; i++) {
+          firstuppercaseletter.push(
+            ustensilarray[i].charAt(0).toUpperCase() + ustensilarray[i].slice(1)
+          );
+        }
 
         // Enlever les doublons
 
@@ -402,11 +470,13 @@ export const renderRecipes = (recipeTable) => {
         ustensilword = searchbarustensils.value.toLowerCase();
 
         // Créer un tableau d'appareils qui matchent la recherche
-        const matchsearcharray = ustensils.filter((i) => {
-          if (matchInput(i, ustensilword)) {
-            return i;
+
+        const matchsearcharray = [];
+        for (let i = 0; i < ustensils.length; i++) {
+          if (matchInput(ustensils[i], ustensilword)) {
+            matchsearcharray.push(ustensils[i]);
           }
-        });
+        }
 
         // si le tableau présente plus de 30 ustenils, raccourcir la liste à 30 max
         matchsearcharray.length > 30
@@ -414,12 +484,10 @@ export const renderRecipes = (recipeTable) => {
           : matchsearcharray;
 
         ustensillist.innerHTML = "";
-        console.log(ustensillist);
-        matchsearcharray.forEach((i) => {
-          ustensillist.innerHTML += `<li class="ustensil">${i}</li>`;
-        });
 
-        console.log(ustensillist);
+        for (let i = 0; i < matchsearcharray.length; i++) {
+          ustensillist.innerHTML += `<li class="ustensil">${matchsearcharray[i]}</li>`;
+        }
       }
     });
   };
@@ -439,23 +507,23 @@ renderRecipes(recipes);
 // Test de la fonction : OK
 
 const MainFilter = (wordToFind, recipeArray) => {
-  const filteredArray = recipeArray.filter((recipe) => {
-    let ingredients = recipe.ingredients;
-    let ingredientTable = [];
-    ingredients.forEach((ingr) => {
-      ingredientTable.push(ingr.ingredient);
-    });
+  const filteredArray = [];
+  for (let i = 0; i < recipeArray.length; i++) {
+    const ingredients = recipeArray[i].ingredients;
+    const ingredientTable = [];
+    for (let y = 0; y < ingredients.length; y++) {
+      ingredientTable.push(ingredients[y].ingredient);
+    }
     if (
-      matchInput(recipe.name, wordToFind) ||
-      matchInput(recipe.description, wordToFind) ||
+      matchInput(recipeArray[i].name, wordToFind) ||
+      matchInput(recipeArray[i].description, wordToFind) ||
       matchWithTable(ingredientTable, wordToFind)
     ) {
-      return recipe;
-      //
+      filteredArray.push(recipeArray[i]);
     } else {
       console.log("no match");
     }
-  });
+  }
   console.log(filteredArray);
   return filteredArray;
 };
@@ -529,21 +597,24 @@ const matchInput = (string, inputword) => {
 // Inputs : Un tableau de strings et une string de référence
 // Ouputs : retourne true ou false
 // Test de la fonction : OK
+
 const matchWithTable = (tableOfStrings, inputword) => {
   let newTable = [];
-  tableOfStrings.forEach((string) => {
-    newTable.push(string.toLowerCase());
-  });
-  tableOfStrings.forEach((string) => {
-    string.toLowerCase();
-  });
-  let found = newTable.find((element) =>
-    element.match(inputword.toLowerCase())
-  );
-  if (found != undefined) {
-    return true;
-  } else {
-    return false;
+
+  for (let i = 0; i < tableOfStrings.length; i++) {
+    newTable.push(tableOfStrings[i].toLowerCase());
+  }
+
+  let found = [];
+  for (let i = 0; i < newTable.length; i++) {
+    if (newTable[i].match(inputword.toLowerCase())) {
+      found.push(newTable[i]);
+    }
+    if (found.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 };
 
