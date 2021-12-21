@@ -419,6 +419,7 @@ body {
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: flex-start;
+  margin-top: 14px;
 }
 
 .recipe__description__detailscontainer__ingredients {

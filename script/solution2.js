@@ -62,7 +62,7 @@ export const renderRecipes = (recipeTable) => {
   ingredientsLists.innerHTML = "";
 
   for (let i = 0; i < ingredientsLists.length; i++) {
-    ingredientsLists[i].innerHTML += ingredientTables[i];
+    ingredientsLists[i].innerHTML += ingredientTables[i].join("");
   }
 
   // Récupérer la liste de tous les ingrédients sans doublons
