@@ -419,6 +419,7 @@ body {
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: flex-start;
+  margin-top: 20px;
 }
 
 .recipe__description__detailscontainer__ingredients {
@@ -445,7 +446,7 @@ body {
 
 .recipe__description__detailscontainer__cooking {
   width: 171px;
-  height: 109px;
+  height: 96px;
   font-family: "Roboto", sans-serif;
   font-size: 12px;
   font-weight: 400;
@@ -454,7 +455,11 @@ body {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 9;
+  -webkit-line-clamp: 8;
+}
+
+.nobold {
+  font-weight: 400;
 }
 
 .title {

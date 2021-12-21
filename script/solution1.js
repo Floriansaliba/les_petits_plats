@@ -1,7 +1,7 @@
 import recipes from "./recipes.js";
 
 export const renderRecipes = (recipeTable) => {
-  // Get DOM elements to insert recipes
+  // Récupérer les éléments du DOM
 
   const recipesSection = document.getElementsByClassName("recipes")[0];
 
@@ -33,16 +33,20 @@ export const renderRecipes = (recipeTable) => {
       if (i.quantity === undefined) {
         return `<li>${i.ingredient.replace(/ *\([^)]*\) */g, "")}</li>`;
       } else if (i.unit === undefined) {
-        return `<li>${i.ingredient.replace(/ *\([^)]*\) */g, "")}: ${
-          i.quantity
-        }</li>`;
+        return `<li>${i.ingredient.replace(
+          / *\([^)]*\) */g,
+          ""
+        )}: <span class="nobold">${i.quantity}</span></li>`;
       } else {
-        return `<li>${i.ingredient.replace(/ *\([^)]*\) */g, "")}: ${
-          i.quantity
-        }${i.unit}</li>`;
+        return `<li>${i.ingredient.replace(
+          / *\([^)]*\) */g,
+          ""
+        )}: <span class="nobold">${i.quantity}${i.unit}</sapn></li>`;
       }
     });
   });
+
+  console.log(ingredientTables);
 
   // Injecter les ingrédients, quantités et unités sous forme de balise <i> dans le code HTML
 
@@ -52,7 +56,7 @@ export const renderRecipes = (recipeTable) => {
   ingredientsLists.innerHTML = "";
 
   for (let i = 0; i < ingredientsLists.length; i++) {
-    ingredientsLists[i].innerHTML += ingredientTables[i];
+    ingredientsLists[i].innerHTML += ingredientTables[i].join("");
   }
 
   // Récupérer la liste de tous les ingrédients sans doublons

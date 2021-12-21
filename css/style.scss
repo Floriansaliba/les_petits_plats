@@ -278,6 +278,7 @@ body {
       flex-direction: row;
       justify-content: space-evenly;
       align-items: flex-start;
+      margin-top: 20px;
       &__ingredients {
         display: flex;
         flex-direction: column;
@@ -292,7 +293,7 @@ body {
       }
       &__cooking {
         width: 171px;
-        height: 109px;
+        height: 96px;
         font-family: "Roboto", sans-serif;
         font-size: 12px;
         font-weight: 400;
@@ -301,10 +302,14 @@ body {
         text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        -webkit-line-clamp: 9;
+        -webkit-line-clamp: 8;
       }
     }
   }
+}
+
+.nobold {
+  font-weight: 400;
 }
 
 .title {

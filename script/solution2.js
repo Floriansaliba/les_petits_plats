@@ -40,15 +40,19 @@ export const renderRecipes = (recipeTable) => {
         );
       } else if (ingredients[y].unit === undefined) {
         ingredientTables[i].push(
-          `<li>${ingredients[y].ingredient.replace(/ *\([^)]*\) */g, "")}: ${
-            ingredients[y].quantity
-          }</li>`
+          `<li>${ingredients[y].ingredient.replace(
+            / *\([^)]*\) */g,
+            ""
+          )}: <span class="nobold">${ingredients[y].quantity}</span></li>`
         );
       } else {
         ingredientTables[i].push(
-          `<li>${ingredients[y].ingredient.replace(/ *\([^)]*\) */g, "")}: ${
-            ingredients[y].quantity
-          }${ingredients[y].unit}</li>`
+          `<li>${ingredients[y].ingredient.replace(
+            / *\([^)]*\) */g,
+            ""
+          )}: <span class="nobold">${ingredients[y].quantity}${
+            ingredients[y].unit
+          }</span></li>`
         );
       }
     }
@@ -62,7 +66,7 @@ export const renderRecipes = (recipeTable) => {
   ingredientsLists.innerHTML = "";
 
   for (let i = 0; i < ingredientsLists.length; i++) {
-    ingredientsLists[i].innerHTML += ingredientTables[i];
+    ingredientsLists[i].innerHTML += ingredientTables[i].join("");
   }
 
   // Récupérer la liste de tous les ingrédients sans doublons
